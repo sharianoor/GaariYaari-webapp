@@ -3,18 +3,21 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Commute Mate | Your Smart Ride Partner</title>
+  <title>GaariYaari | Your Smart Ride Partner</title>
+  <link rel = "icon" type="img/png" href="images\GaariYaari logo tab.png">
   <link rel="stylesheet" href="style.css">
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
 </head>
 <body>
   <!-- Navbar -->
   <header class="navbar">
-    <div class="logo">Gaari<span>Yaari</span></div>
+    <a href="index.html" class="logo">
+      <img src="images\GaariYaari_navbar.png" alt="GaariYaari Logo">
+    </a>
     <nav>
       <ul class="nav-links">
-        <li><a href="#">Home</a></li>
-        <li><a href="#">Find Rides</a></li>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="find-ride.html">Find a Ride</a></li>
         <li><a href="#">Offer a Ride</a></li>
         <li><a href="#">About</a></li>
         <li><a href="#">Contact</a></li>
@@ -25,20 +28,13 @@
   <!-- Hero Section -->
   <section class="hero">
     <div class="hero-content">
-      <h1>Find Your Perfect Commute with <span>Gaari Yaari</span></h1>
-      <p>Smart, safe, and affordable rides — anytime, anywhere.</p>
+      <h1>Welcome to <span>GaariYaari</span></h1>
+      <p>Smart, safe, and affordable ride-sharing made simple.</p>
 
-      <div class="tabs">
-        <button class="active">Local</button>
-        <button>Outstation</button>
+      <div class="hero-buttons">
+        <a href="#" class="btn offer-btn">Offer a Ride</a>
+        <a href="find-ride.html" class="btn find-btn">Find a Ride</a>
       </div>
-
-      <form class="ride-form">
-        <input type="text" placeholder="Pickup Location">
-        <input type="text" placeholder="Drop Location">
-        <input type="datetime-local">
-        <button type="submit">Search Ride</button>
-      </form>
     </div>
   </section>
 
