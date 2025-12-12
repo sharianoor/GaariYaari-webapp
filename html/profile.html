@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile | GaariYaari</title>
+    <link rel="icon" type="img/png" href="../images/GaariYaari logo tab.png">
+    <link rel="stylesheet" href="../style/style.css">
+    <script src="../script/script.js?v=2"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <!-- Navbar -->
+    <header class="navbar">
+        <a href="index.html" class="logo">
+            <img src="../images/GaariYaari_navbar.png" alt="GaariYaari Logo">
+        </a>
+        <nav>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li class="protected-link"><a href="find-ride.html">Find a Ride</a></li>
+                <li class="protected-link"><a href="offer-ride.html">Offer a Ride</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="contact.html">Contact</a></li>
+                <li><a href="login.html" class="auth-link">Login</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Profile Section -->
+    <section class="profile-section">
+        <div class="container" style="max-width: 800px; margin: 50px auto; padding: 20px;">
+            <h2>My Profile</h2>
+            <div class="profile-info"
+                style="background: #f4f4f4; padding: 20px; border-radius: 8px; margin-bottom: 30px;">
+                <p><strong>Name:</strong> <span id="profile-name">Loading...</span></p>
+                <p><strong>Email:</strong> <span id="profile-email">Loading...</span></p>
+                <p><strong>Phone:</strong> <span id="profile-phone">Loading...</span></p>
+                <p><strong>Role:</strong> <span id="profile-role">Loading...</span></p>
+            </div>
+
+            <h3>Bookings / Offered Rides</h3>
+            <!-- Container for both Bookings (Passenger) and Offered Rides (Driver) -->
+            <div id="user-bookings">
+                <p>Loading...</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <p>&copy; 2025 GaariYaari. All Rights Reserved.</p>
+            <div class="footer-links">
+                <a href="#">Privacy Policy</a> |
+                <a href="#">Terms</a> |
+                <a href="#">Help</a>
+            </div>
+        </div>
+    </footer>
+</body>
+
+</html>

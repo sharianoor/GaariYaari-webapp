@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GaariYaari | Your Smart Ride Partner</title>
+  <link rel="icon" type="img/png" href="../images/GaariYaari logo tab.png">
+  <link rel="stylesheet" href="../style/style.css">
+  <script src="../script/script.js?v=2"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+</head>
+
+<body>
+  <!-- Navbar -->
+  <header class="navbar">
+    <a href="index.html" class="logo">
+      <img src="../images/GaariYaari_navbar.png" alt="GaariYaari Logo">
+    </a>
+    <nav>
+      <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="find-ride.html">Find a Ride</a></li>
+        <li><a href="offer-ride.html">Offer a Ride</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="contact.html">Contact</a></li>
+        <li><a href="login.html" class="auth-link">Login</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- Offer Ride Section -->
+  <section class="hero">
+    <div class="hero-content">
+      <h1>Share Your Journey with <span>GaariYaari</span></h1>
+      <p>Post your ride and help others travel smart and affordably.</p>
+    </div>
+  </section>
+  <br><br>
+
+  <section class="offer-form-section">
+    <h2>Offer a Ride</h2>
+    <form class="ride-form offer-form">
+      <select id="city" required
+        style="padding: 0.8rem 1rem; border: 2px solid rgba(0, 131, 176, 0.2); border-radius: 12px; width: 250px; outline: none; background: white;">
+        <option value="" disabled selected>Select City</option>
+        <option value="Karachi">Karachi</option>
+        <option value="Lahore">Lahore</option>
+        <option value="Islamabad">Islamabad</option>
+        <option value="Rawalpindi">Rawalpindi</option>
+        <option value="Faisalabad">Faisalabad</option>
+        <option value="Multan">Multan</option>
+        <option value="Peshawar">Peshawar</option>
+        <option value="Quetta">Quetta</option>
+      </select>
+      <input type="text" id="pickup" placeholder="Pickup Location" required>
+      <input type="text" id="destination" placeholder="Drop Location" required>
+      <input type="datetime-local" id="datetime" required>
+
+      <!-- Vehicle Details -->
+      <select id="vehicle-type"
+        style="width: 250px; padding: 0.8rem 1rem; border: 2px solid rgba(0, 131, 176, 0.2); border-radius: 12px; outline: none; margin-bottom: 1rem;"
+        required>
+        <option value="" disabled selected>Select Vehicle Type</option>
+        <option value="Car">Car</option>
+        <option value="Bike">Bike</option>
+      </select>
+      <input type="text" id="vehicle-name" placeholder="Vehicle Name (e.g. Honda Civic)" required>
+      <input type="text" id="vehicle-number" placeholder="Vehicle Number (e.g. LE-1234)" required>
+
+      <input type="number" id="seats" placeholder="Available Seats" min="1" required>
+      <input type="number" id="cost" placeholder="Cost per Seat (PKR)" min="0" required>
+      <button type="submit">Post Ride</button>
+    </form>
+  </section>
+  <br><br>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-content">
+      <p>&copy; 2025 GaariYaari. All Rights Reserved.</p>
+      <div class="footer-links">
+        <a href="#">Privacy Policy</a> |
+        <a href="#">Terms</a> |
+        <a href="#">Help</a>
+      </div>
+    </div>
+  </footer>
+</body>
+
+</html>
