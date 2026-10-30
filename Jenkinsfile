@@ -18,19 +18,6 @@ pipeline {
             }
         }
 
-        stage('Identify Committer') {
-            steps {
-                script {
-                    env.COMMIT_EMAIL = sh(
-                        script: "git log -1 --format='%ae'",
-                        returnStdout: true
-                    ).trim()
-
-                    echo "Commit email identified: ${env.COMMIT_EMAIL}"
-                }
-            }
-        }
-
         stage('Verify Source') {
             steps {
                 sh '''
@@ -86,35 +73,55 @@ pipeline {
     }
 
     post {
-        always {
+        success {
             script {
-                def recipient = env.COMMIT_EMAIL ?: ''
+                def recipients = [
+                    'sharianoor': 'YOUR_GMAIL@gmail.com',
+                    'SufwanAmir': 'SUFWAN_GMAIL@gmail.com'
+                ]
 
-                if (recipient && recipient.contains('@')) {
+                def author = sh(
+                    script: 'git log -1 --format=%an',
+                    returnStdout: true
+                ).trim()
+
+                def recipient = recipients[author]
+
+                if (recipient) {
                     mail(
                         to: recipient,
-                        subject: "GaariYaari Part-II: ${currentBuild.currentResult} (#${env.BUILD_NUMBER})",
+                        subject: "GaariYaari Part-II: SUCCESS (#${env.BUILD_NUMBER})",
                         body: """Hello,
 
-The GaariYaari Part-II Jenkins pipeline has completed.
+The GaariYaari Part-II Jenkins pipeline completed successfully.
 
-Build Result: ${currentBuild.currentResult}
-Job Name: ${env.JOB_NAME}
-Build Number: ${env.BUILD_NUMBER}
+Build: ${env.BUILD_NUMBER}
+Job: ${env.JOB_NAME}
+Commit author: ${author}
 Build URL: ${env.BUILD_URL}
 
-Please open the build URL for details.
-
-Regards,
-Jenkins
+Please review the Jenkins console output for details.
 """
                     )
-
-                    echo "Build notification sent to ${recipient}"
                 } else {
-                    echo 'No valid commit email was found. Email notification was not sent.'
+                    echo "No email mapping found for commit author: ${author}"
                 }
             }
+        }
+
+        failure {
+            mail(
+                to: 'YOUR_GMAIL@gmail.com,SUFWAN_GMAIL@gmail.com',
+                subject: "GaariYaari Part-II: FAILED (#${env.BUILD_NUMBER})",
+                body: """The GaariYaari Part-II pipeline failed.
+
+Job: ${env.JOB_NAME}
+Build: ${env.BUILD_NUMBER}
+Build URL: ${env.BUILD_URL}
+
+Please review the Jenkins console output.
+"""
+            )
         }
     }
 }
