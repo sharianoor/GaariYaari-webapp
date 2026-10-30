@@ -76,8 +76,8 @@ pipeline {
         success {
             script {
                 def recipients = [
-                    'sharianoor': 'YOUR_GMAIL@gmail.com',
-                    'SufwanAmir': 'SUFWAN_GMAIL@gmail.com'
+                    'sharianoor': 'sharianoor2@gmail.com',
+                    'SufwanAmir': 'sufwanamir99@gmail.com'
                 ]
 
                 def author = sh(
@@ -111,7 +111,7 @@ Please review the Jenkins console output for details.
 
         failure {
             mail(
-                to: 'YOUR_GMAIL@gmail.com,SUFWAN_GMAIL@gmail.com',
+                to: 'sharianoor2@gmail.com,sufwanamir99@gmail.com',
                 subject: "GaariYaari Part-II: FAILED (#${env.BUILD_NUMBER})",
                 body: """The GaariYaari Part-II pipeline failed.
 
