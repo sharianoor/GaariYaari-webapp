@@ -15,6 +15,27 @@ pipeline {
             steps {
                 git branch: 'master',
                     url: 'https://github.com/sharianoor/GaariYaari-webapp.git'
+
+                script {
+                    env.COMMIT_HASH = sh(
+                        script: 'git rev-parse --short HEAD',
+                        returnStdout: true
+                    ).trim()
+
+                    env.COMMIT_AUTHOR = sh(
+                        script: 'git log -1 --format=%an',
+                        returnStdout: true
+                    ).trim()
+
+                    env.COMMIT_AUTHOR_EMAIL = sh(
+                        script: 'git log -1 --format=%ae',
+                        returnStdout: true
+                    ).trim()
+
+                    echo "Commit: ${env.COMMIT_HASH}"
+                    echo "Commit author: ${env.COMMIT_AUTHOR}"
+                    echo "Commit author email: ${env.COMMIT_AUTHOR_EMAIL}"
+                }
             }
         }
 
@@ -64,64 +85,57 @@ pipeline {
             steps {
                 sh '''
                     set -eu
+
                     docker ps --filter name=gaariyaari-frontend-p2
                     docker ps --filter name=gaariyaari-backend-p2
                     docker ps --filter name=gaariyaari-mongo-p2
+
+                    echo "Deployment verification completed."
                 '''
             }
         }
     }
 
     post {
-        success {
+        always {
             script {
-                def recipients = [
-                    'sharianoor': 'sharianoor2@gmail.com',
-                    'SufwanAmir': 'sufwanamir99@gmail.com'
-                ]
+                def result = currentBuild.currentResult ?: 'UNKNOWN'
+                def recipient = env.COMMIT_AUTHOR_EMAIL?.trim()
 
-                def author = sh(
-                    script: 'git log -1 --format=%an',
-                    returnStdout: true
-                ).trim()
+                if (recipient &&
+                    recipient.contains('@') &&
+                    !recipient.endsWith('@users.noreply.github.com')) {
 
-                def recipient = recipients[author]
-
-                if (recipient) {
                     mail(
                         to: recipient,
-                        subject: "GaariYaari Part-II: SUCCESS (#${env.BUILD_NUMBER})",
-                        body: """Hello,
+                        subject: "GaariYaari Part-II: ${result} (#${env.BUILD_NUMBER})",
+                        body: """Hello ${env.COMMIT_AUTHOR ?: 'Contributor'},
 
-The GaariYaari Part-II Jenkins pipeline completed successfully.
+The GaariYaari Part-II Jenkins pipeline has completed.
 
-Build: ${env.BUILD_NUMBER}
-Job: ${env.JOB_NAME}
-Commit author: ${author}
+Build Result: ${result}
+Build Number: ${env.BUILD_NUMBER}
+Commit: ${env.COMMIT_HASH ?: 'Unavailable'}
+Commit Author: ${env.COMMIT_AUTHOR ?: 'Unavailable'}
+Commit Author Email: ${recipient}
+Jenkins Job: ${env.JOB_NAME}
 Build URL: ${env.BUILD_URL}
 
-Please review the Jenkins console output for details.
+Please open the Build URL to review the complete console output.
+
+Regards,
+GaariYaari Jenkins Pipeline
 """
                     )
+
+                    echo "Build notification sent to commit author email: ${recipient}"
                 } else {
-                    echo "No email mapping found for commit author: ${author}"
+                    echo "WARNING: No valid deliverable commit author email was found."
+                    echo "Commit author: ${env.COMMIT_AUTHOR ?: 'Unavailable'}"
+                    echo "Commit author email: ${recipient ?: 'Unavailable'}"
+                    echo "Email notification skipped."
                 }
             }
-        }
-
-        failure {
-            mail(
-                to: 'sharianoor2@gmail.com,sufwanamir99@gmail.com',
-                subject: "GaariYaari Part-II: FAILED (#${env.BUILD_NUMBER})",
-                body: """The GaariYaari Part-II pipeline failed.
-
-Job: ${env.JOB_NAME}
-Build: ${env.BUILD_NUMBER}
-Build URL: ${env.BUILD_URL}
-
-Please review the Jenkins console output.
-"""
-            )
         }
     }
 }
