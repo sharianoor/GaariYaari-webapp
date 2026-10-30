@@ -18,6 +18,19 @@ pipeline {
             }
         }
 
+        stage('Identify Committer') {
+            steps {
+                script {
+                    env.COMMIT_EMAIL = sh(
+                        script: "git log -1 --format='%ae'",
+                        returnStdout: true
+                    ).trim()
+
+                    echo "Commit email identified: ${env.COMMIT_EMAIL}"
+                }
+            }
+        }
+
         stage('Verify Source') {
             steps {
                 sh '''
@@ -68,6 +81,39 @@ pipeline {
                     docker ps --filter name=gaariyaari-backend-p2
                     docker ps --filter name=gaariyaari-mongo-p2
                 '''
+            }
+        }
+    }
+
+    post {
+        always {
+            script {
+                def recipient = env.COMMIT_EMAIL ?: ''
+
+                if (recipient && recipient.contains('@')) {
+                    mail(
+                        to: recipient,
+                        subject: "GaariYaari Part-II: ${currentBuild.currentResult} (#${env.BUILD_NUMBER})",
+                        body: """Hello,
+
+The GaariYaari Part-II Jenkins pipeline has completed.
+
+Build Result: ${currentBuild.currentResult}
+Job Name: ${env.JOB_NAME}
+Build Number: ${env.BUILD_NUMBER}
+Build URL: ${env.BUILD_URL}
+
+Please open the build URL for details.
+
+Regards,
+Jenkins
+"""
+                    )
+
+                    echo "Build notification sent to ${recipient}"
+                } else {
+                    echo 'No valid commit email was found. Email notification was not sent.'
+                }
             }
         }
     }
